@@ -5,7 +5,8 @@ const morgan = require('morgan');
 const config = require('./config/config');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/AsianFood');
+const recipeRouter = require('./routers/recipe');
+
 const app = express();
 
 app.use(morgan('combined'));
@@ -13,7 +14,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-require('./routes/index')(app);
+app.use(recipeRouter);
 
+mongoose.connect(config.database_url, {useNewUrlParser: true}, (err) => {
+    if(err) throw err;
+    app.listen(config.port, () => console.log("Server running on port " + config.port));
+})
 
-app.listen(config.port);
