@@ -10,8 +10,8 @@ const recipeRouter = require('./routers/recipe');
 const app = express();
 
 app.use(morgan('combined'));
-app.use(bodyParser.json());
 app.use(cors());
+app.use(bodyParser.json());
 
 
 app.use(recipeRouter);

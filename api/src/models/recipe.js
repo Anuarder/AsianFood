@@ -9,7 +9,8 @@ const RecipeSchema = new Schema(
         time: String,
         ingredients: [String],
         instructions: [String],
-        category: String
+        category: String,
+        isFavorite: Boolean
     },
     {
         collection: 'Recipes'
