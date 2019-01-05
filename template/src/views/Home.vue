@@ -9,14 +9,12 @@
   </v-container>
 </template>
 <script>
-import axios from 'axios'
+import RecipesServices from '@/services/RecipesServices'
 export default {
   methods: {
-    sayHi(){
-      axios.get('http://localhost:8081/recipes')
-        .then(res => {
-          console.log(res);
-        }).catch(err => console.log(err));
+    async sayHi(){
+      let recipes = await RecipesServices.getAll();
+      console.log(recipes);
     }
   }
 }

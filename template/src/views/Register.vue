@@ -3,6 +3,22 @@
     <v-layout>
       <v-flex sm12 class="text-sm-center">
         <h2>Register</h2>
+        <v-alert
+          v-if="error_message"
+          :value="true"
+          color="error"
+          icon="check_circle"
+          outline>
+          {{error_message}}
+        </v-alert>
+        <v-alert
+          v-if="success_message"
+          :value="true"
+          color="success"
+          icon="check_circle"
+          outline>
+          {{success_message}}
+        </v-alert>
         <v-form>
           <v-text-field
             v-model="username"
@@ -29,7 +45,9 @@ export default {
     return{
       username: '',
       email: '',
-      password: ''
+      password: '',
+      error_message: '',
+      success_message: ''
     }
   },
   methods: {
@@ -39,6 +57,8 @@ export default {
         email: this.email,
         password: this.password
       }).then(res => {
+        this.error_message = res.data.error;
+        this.success_message = res.data.message;
         console.log(res);
       }).catch(err => {
         console.log(err);

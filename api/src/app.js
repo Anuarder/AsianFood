@@ -16,7 +16,6 @@ app.use(morgan('combined'));
 app.use(cors());
 app.use(bodyParser.json());
 
-
 // Routers
 app.use(recipeRouter);
 app.use(userRouter);
