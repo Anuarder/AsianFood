@@ -3,10 +3,20 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
     async loginUser(req, res){
-        try{    
-            res.send("User created");
+        try{
+            let user = await User.findOne({ email: req.body.email });
+            if(user){
+                let password = await bcrypt.compare(req.body.password, user.password);
+                if(!password){
+                    throw "Incorrect password"
+                }else{
+                    res.send(user);
+                }
+            }else{
+                throw "Incorrect user"
+            }
         }catch(err){
-            res.send(err);
+            res.send({error: err});
         }
     },
     async createNewUser(req, res){
@@ -15,7 +25,7 @@ module.exports = {
             let user = await User.findOne({email: req.body.email});
             if(user){
                 res.send({
-                    message: "User is already exist"
+                    error: "User is already exist"
                 })
             }else{
                 let newUser = new User({
