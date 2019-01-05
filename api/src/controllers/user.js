@@ -20,7 +20,6 @@ module.exports = {
                     {
                         expiresIn: '1h'
                     });
-                    
                     return res.send({
                         token: token
                     });
