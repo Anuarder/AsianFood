@@ -18,9 +18,14 @@ module.exports = {
                     },
                         config.secret,
                     {
-                        expiresIn: '1h'
+                        expiresIn: '7d'
                     });
                     return res.send({
+                        user: {
+                            username: user.username,
+                            email: user.email,
+                            id: user._id
+                        },
                         token: token
                     });
                 }

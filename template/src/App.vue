@@ -17,6 +17,7 @@
     height: 100vh;
     width: 100vw;
     font-family: 'Baloo', sans-serif;
+    color: #393942;
   }
   .login-card{
     background-image: url('./assets/preview.jpg');
@@ -45,7 +46,15 @@
   .router-btn{
     cursor: pointer;
   }
-
+  .error-alert{
+    font-size: 16px;
+    letter-spacing: .8px;
+    font-family: 'Open Sans', sans-serif;
+    border-radius: 10px;
+  }
+  .home-link{
+    cursor: pointer;
+  }
   /* Router transition */
   .fade-enter-active,
   .fade-leave-active {

@@ -13,10 +13,14 @@
           type="error">
           {{error}}
         </v-alert>
-        <v-list>
+        <v-list two-line>
             <v-list-tile
               v-for="(item, index) in recipes"
               :key="item._id">
+              <v-list-tile-avatar>
+                <img :src="item.img">
+              </v-list-tile-avatar>
+
               <v-list-tile-content>
                 <v-list-tile-title>{{index+1}}) {{item.title}}</v-list-tile-title>
                 <v-list-tile-sub-title>{{item.category}}</v-list-tile-sub-title>
@@ -42,12 +46,10 @@ export default {
   methods: {
     async sayHi(){
       try{  
-        let recipes = await RecipesServices.getAll();
-        console.log(recipes.data);
-        this.recipes = recipes.data;
-
-      }catch(error){
-        console.log(error);
+        let response = await RecipesServices.getAll();
+        this.recipes = response.data.recipes;
+      }catch(err){
+        console.log(err);
         this.error = "Auth failed";
       }
     },

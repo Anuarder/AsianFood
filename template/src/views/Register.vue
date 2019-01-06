@@ -2,16 +2,19 @@
   <v-container fluid class="login">
     <v-layout row fill-height align-center class="login-card elevation-10">
       <v-flex offset-sm6 class="login-form">
-          <h1>ASIAN FOOD</h1>
+          <h1 class="home-link" @click="goLink('home')">ASIAN FOOD</h1>
           <h4>Register new user</h4>
           <v-form 
             ref="form"
+            @submit.prevent
             v-model="valid"
             class="mt-3 mb-3">
             <v-alert
               v-model="alert"
               dismissible
-              type="error">
+              outline
+              type="error"
+              class="error-alert mb-3">
               {{error_message}}
             </v-alert>
             <v-text-field
@@ -46,10 +49,12 @@
               color="orange"
               dark
               large
+              type="submit"
               class="elevation-8"
-              right>sign up</v-btn>
+              right
+              :loading="performingRequest">sign up</v-btn>
           </v-form>
-          <h5>Have a account? <span class="orange--text router-btn" @click="goLogin()">SIGN IN</span></h5>
+          <h5>Have a account? <span class="orange--text router-btn" @click="goLink('login')">SIGN IN</span></h5>
       </v-flex>
     </v-layout>
   </v-container>
@@ -81,18 +86,21 @@ export default {
       ],
       error_message: '',
       alert: false,
+      performingRequest: false
     }
   },
   methods:{
     validate () {
       if (this.$refs.form.validate()) {
+        event.preventDefault()
+        this.performingRequest = true;
         this.register();
       }else{
         console.log("validate")
       }
     },
-    goLogin(){
-      this.$router.push({name: 'login'})
+    goLink(link){
+      this.$router.push({name: link});
     },
     async register(){
       try{
@@ -103,8 +111,10 @@ export default {
         });
         console.log(response);
         if(response.data.message){
+          this.performingRequest = false;
           this.$router.push({name: 'login'});
         }else{
+          this.performingRequest = false;
           this.alert = true;
           throw response.data.error;
         }

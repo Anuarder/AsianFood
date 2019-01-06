@@ -2,11 +2,13 @@
   <v-container fluid class="login">
     <v-layout row fill-height align-center class="login-card elevation-10">
       <v-flex offset-sm6 class="login-form">
-          <h1>ASIAN FOOD</h1>
+          <h1 class="home-link" @click="goLink('home')">ASIAN FOOD</h1>
           <h4>Food asian and Lorem ipsum dolor sit amet, consectetur adipisicing.</h4>
-          <v-form class="mt-3 mb-3">
+          <v-form class="mt-3 mb-3" @submit.prevent>
             <v-alert
               v-model="alert"
+              outline
+              class="error-alert mb-3"
               dismissible
               type="error">
               {{error_message}}
@@ -23,12 +25,14 @@
             <v-btn
               @click="login()"
               color="orange"
+              type="submit"
               dark
               large
               class="elevation-8"
-              right>sign in</v-btn>
+              right
+              :loading="performingRequest">sign in</v-btn>
           </v-form>
-          <h5>Don't have an account? <span class="orange--text router-btn" @click="goRegister()">SIGN UP</span></h5>
+          <h5>Don't have an account? <span class="orange--text router-btn" @click="goLink('register')">SIGN UP</span></h5>
       </v-flex>
     </v-layout>
   </v-container>
@@ -42,23 +46,29 @@ export default {
       email: '',
       password: '',
       error_message: '',
+      performingRequest: false
     }
   },
   methods:{
-    goRegister(){
-      this.$router.push({name: 'register'})
+    goLink(link){
+      this.$router.push({name: link})
     },
     async login(){
       try{
+        event.preventDefault();
+        this.performingRequest = true;
         const response = await Auth.login({
           email: this.email,
           password: this.password
         });
         console.log(response);
         if(response.data.token){
+          this.performingRequest = false;
           this.$store.dispatch('setUserToken', response.data.token);
+          this.$store.dispatch('setUserData', response.data.user);
           this.$router.push({name: 'home'});
         }else{
+          this.performingRequest = false;
           this.alert = true;
           throw response.data.error;
         }
