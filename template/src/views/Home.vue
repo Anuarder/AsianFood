@@ -36,6 +36,9 @@ export default {
       error: ''
     }
   },
+  created(){
+    this.sayHi();
+  },
   methods: {
     async sayHi(){
       try{  

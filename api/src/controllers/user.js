@@ -36,9 +36,7 @@ module.exports = {
             // Check email for existence
             let user = await User.findOne({email: req.body.email});
             if(user){
-                res.send({
-                    error: "User is already exist"
-                })
+                throw "User is already exist"
             }else{
                 let newUser = new User({
                     username: req.body.username,
@@ -59,9 +57,7 @@ module.exports = {
                 });
             }
         }catch(err){
-            res.status(400).send({
-                error: "createNewUser Error"
-            })
+            res.send({error: err});
         }
     }
 }

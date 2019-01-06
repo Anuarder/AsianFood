@@ -1,27 +1,34 @@
 <template>
-  <v-container>
-    <v-layout>
-      <v-flex sm12 class="text-sm-center">
-        <h2>Login</h2>
-        <v-alert
-          v-if="error_message"
-          :value="true"
-          color="error"
-          icon="check_circle"
-          outline>
-          {{error_message}}
-        </v-alert>
-        <v-form>
-          <v-text-field
-            v-model="email"
-            label="Email"
-            type="email"></v-text-field>
+  <v-container fluid class="login">
+    <v-layout row fill-height align-center class="login-card elevation-10">
+      <v-flex offset-sm6 class="login-form">
+          <h1>ASIAN FOOD</h1>
+          <h4>Food asian and Lorem ipsum dolor sit amet, consectetur adipisicing.</h4>
+          <v-form class="mt-3 mb-3">
+            <v-alert
+              v-model="alert"
+              dismissible
+              type="error">
+              {{error_message}}
+            </v-alert>
             <v-text-field
-              v-model="password"
+              class="login-input"
+              label="Email"
+              v-model="email"></v-text-field>
+            <v-text-field
+              class="login-input mb-3"
               label="Password"
+              v-model="password"
               type="password"></v-text-field>
-            <v-btn color="primary" @click="login">Login</v-btn>
-        </v-form>
+            <v-btn
+              @click="login()"
+              color="orange"
+              dark
+              large
+              class="elevation-8"
+              right>sign in</v-btn>
+          </v-form>
+          <h5>Don't have an account? <span class="orange--text router-btn" @click="goRegister()">SIGN UP</span></h5>
       </v-flex>
     </v-layout>
   </v-container>
@@ -31,37 +38,33 @@ import Auth from '@/services/Auth'
 export default {
   data(){
     return{
+      alert: false,
       email: '',
       password: '',
       error_message: '',
     }
   },
   methods:{
+    goRegister(){
+      this.$router.push({name: 'register'})
+    },
     async login(){
       try{
         const response = await Auth.login({
           email: this.email,
           password: this.password
         });
-        this.$store.dispatch('setUserToken', response.data.token);
-        this.$router.push({
-          name: 'home'
-        })
+        console.log(response);
+        if(response.data.token){
+          this.$store.dispatch('setUserToken', response.data.token);
+          this.$router.push({name: 'home'});
+        }else{
+          this.alert = true;
+          throw response.data.error;
+        }
       }catch(error){
-        this.error_message = error.response.data.error;
+        this.error_message = error;
       }
-      
-      // axios.post('http://localhost:8081/login', {
-      //   email: this.email,
-      //   password: this.password
-      // }).then(res => {
-      //   this.error_message = res.data.error
-      //   this.user = res.data.user
-      //   if(this.user){
-      //     this.$router.push('/home');
-      //   }
-      //   console.log(res);
-      // }).catch(err => console.log(err));
     }
   }
 }
