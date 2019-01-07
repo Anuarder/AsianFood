@@ -3,8 +3,9 @@
     <v-layout wrap row>
       <v-flex xs12 class="text-xs-center mb-3">
         <h1>Dashboard page</h1>
-        <v-btn color="primary" @click="sayHi">Say hi</v-btn>
-        <v-btn color="primary" @click="logout">Log out</v-btn>
+        <v-btn color="primary" @click="sayHi()">Say hi</v-btn>
+        <v-btn color="primary" @click="getRecipe('5c2435c0c85ae2132c6882ed')">Get recipe</v-btn>
+        <v-btn color="primary" @click="logout()">Log out</v-btn>
       </v-flex>
       <v-flex xs12>
         <v-alert
@@ -13,6 +14,22 @@
           type="error">
           {{error}}
         </v-alert>
+        
+        <v-list v-if="recipe">
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <img :src="recipe[0].img" @click="deleteFromFavorites(recipe[0]._id)">
+            </v-list-tile-avatar>
+
+            <v-list-tile-content>
+              <v-list-tile-title>{{recipe[0].title}}</v-list-tile-title>
+            </v-list-tile-content>
+
+            <v-list-tile-action>
+              <v-icon @click="addToFavorite(recipe[0]._id)">chat_bubble</v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
+        </v-list>
         <v-list two-line>
             <v-list-tile
               v-for="(item, index) in recipes"
@@ -37,7 +54,8 @@ export default {
   data(){
     return{
       recipes: [],
-      error: ''
+      error: '',
+      recipe: ''
     }
   },
   created(){
@@ -51,6 +69,30 @@ export default {
       }catch(err){
         console.log(err);
         this.error = "Auth failed";
+      }
+    },
+    async getRecipe(id){
+      try{
+        let response = await RecipesServices.getRecipeByID(id);
+        this.recipe = response.data.recipe;
+        console.log(response);
+      }catch(err){
+        console.log(err);
+      }
+    },
+    async addToFavorite(id){
+      try{
+        let response = await RecipesServices.addToFavorite(id);
+        console.log(response);
+      }catch(err){
+        console.log(err);
+      }
+    },
+    async deleteFromFavorites(id){
+      try{
+        let response = await RecipesServices.deleteFromFavorites(id);
+      }catch(err){
+        console.log(err);
       }
     },
     logout(){

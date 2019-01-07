@@ -4,7 +4,7 @@ import AsianFood from './components/AsianFood.vue'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
-import store from '@/store'
+// import store from '@/store'
 
 Vue.use(Router)
 
@@ -42,17 +42,17 @@ const router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  const requaresAuth = to.matched.some(record => record.meta.requaresAuth);
-  const currentUser = store.state.isAuthenticated;
-  if(requaresAuth && !currentUser){
-    next('/login');
-  }else if(requaresAuth && currentUser){
-    next();
-  }else{
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   const requaresAuth = to.matched.some(record => record.meta.requaresAuth);
+//   const currentUser = store.state.isAuthenticated;
+//   if(requaresAuth && !currentUser){
+//     next('/login');
+//   }else if(requaresAuth && currentUser){
+//     next();
+//   }else{
+//     next();
+//   }
+// });
 
 
 export default router;

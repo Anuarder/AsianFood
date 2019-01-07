@@ -1,4 +1,5 @@
 const Recipe = require('../models/Recipe');
+const User = require('../models/User');
 
 module.exports = {
     async getRecipesByCategory (req, res){
@@ -37,20 +38,30 @@ module.exports = {
             })
         }
     },
-    async updateFavorites(req, res){
-        try{ 
-            if(req.body.id && req.body.isFavorite){
-                let recipe = await Recipe.update({_id: req.body.id}, {isFavorite: req.body.isFavorite});
-                res.send({
-                    message: "Recipe updated"
-                });
-            }else{
-                throw "ID or isFavorites not found";
-            }
+    async setToFavorites(req, res){
+        try{
+            await User.update({_id: req.userData.id}, {$addToSet: {favorites: req.params.id}});
+            res.send({
+                user: req.userData.id,
+                recipe: req.params.id,
+                message: 'Add to favorite'
+            })
         }catch(err){
-            res.status(400).send({
-                error: `Error ${err}`
+            res.send({
+                error: err
             })
         }
     },
+    async deleleFromFavorites(req, res){
+        try{
+            await User.update({_id: req.userData.id}, {$pull: {favorites: req.params.id}});
+            res.send({
+                message: "Recipe delete from favorites"
+            })
+        }catch(err){
+            res.send({
+                error: err
+            })
+        }
+    }
 }
