@@ -39,13 +39,15 @@
           label="Search"
           class="search-panel hidden-sm-and-down ma-3"></v-text-field>
       <v-btn v-if='!token' dark color="amber" class="hidden-sm-and-down" @click="goLink('login')">Login</v-btn>
-      <v-btn v-else icon dark color="red" class="hidden-sm-and-down" @click="goLink('user')">
-        <v-icon>person</v-icon>
-      </v-btn>
+      <div v-else>
+        <v-btn icon large class="hidden-sm-and-down" @click="goLink('user')">
+          <v-icon large color="red darken-1">face</v-icon>
+        </v-btn>
+      </div>
       <v-spacer class="hidden-md-and-up"></v-spacer>
       <v-toolbar-side-icon class="hidden-md-and-up" @click="drawer = !drawer"></v-toolbar-side-icon>
     </v-toolbar>
-    <v-navigation-drawer 
+    <v-navigation-drawer
       v-model="drawer"
       clipped
       fixed
@@ -60,10 +62,12 @@
               <v-list-tile-title 
                 class="title red--text">Menu</v-list-tile-title>
             </v-list-tile-content>
-            <v-btn v-if='!token' dark color="amber" @click="goLink('login')">Login</v-btn>
-            <v-btn v-else icon @click="goLink('user')">
-              <v-icon color="red darken-1">person</v-icon>
-            </v-btn>
+            <v-btn v-if='!token' flat dark color="amber" @click="goLink('login')">Login</v-btn>
+            <div v-else>
+              <v-btn large icon @click="goLink('user')">
+                <v-icon large color="red darken-1">face</v-icon>
+              </v-btn>
+            </div>
           </v-list-tile>
         </v-list>
       </v-toolbar>
@@ -77,7 +81,7 @@
             label="Search"
             class="menu-search-panel"></v-text-field>
         </v-list-tile>
-        <v-subheader>
+        <v-subheader @click="logout">
           Select category
         </v-subheader>
         <v-list-tile

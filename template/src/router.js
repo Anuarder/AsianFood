@@ -4,11 +4,15 @@ import Login from './views/Auth/Login.vue'
 import Register from './views/Auth/Register.vue'
 import Home from './views/Home.vue'
 import Recipes from './views/Recipes.vue'
-import Korea from './views//Recipes/Korea.vue'
-import Thai from './views//Recipes/Thai.vue'
-import Japan from './views//Recipes/Japan.vue'
-import China from './views//Recipes/China.vue'
-// import store from '@/store'
+import Korea from './views/Recipes/Korea.vue'
+import Thai from './views/Recipes/Thai.vue'
+import Japan from './views/Recipes/Japan.vue'
+import China from './views/Recipes/China.vue'
+
+import User from './views/User/User.vue'
+import Favorite from './views/User/Favorite.vue'
+
+import store from '@/store'
 
 Vue.use(Router)
 
@@ -45,6 +49,22 @@ const router = new Router({
           name: 'china',
           component: China
         },
+        {
+          path: '/user',
+          name: 'user',
+          component: User,
+          meta: {
+            requaresAuth: true
+          }
+        },
+        {
+          path: '/favorite',
+          name: 'favorite',
+          component: Favorite,
+          meta: {
+            requaresAuth: true
+          }
+        },
 
       ]
     },
@@ -61,17 +81,17 @@ const router = new Router({
   ]
 })
 
-// router.beforeEach((to, from, next) => {
-//   const requaresAuth = to.matched.some(record => record.meta.requaresAuth);
-//   const currentUser = store.state.token;
-//   if(requaresAuth && !currentUser){
-//     next('/login');
-//   }else if(requaresAuth && currentUser){
-//     next();
-//   }else{
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  const requaresAuth = to.matched.some(record => record.meta.requaresAuth);
+  const currentUser = store.state.token;
+  if(requaresAuth && !currentUser){
+    next('/login');
+  }else if(requaresAuth && currentUser){
+    next();
+  }else{
+    next();
+  }
+});
 
 
 export default router;

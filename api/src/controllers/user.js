@@ -24,6 +24,7 @@ module.exports = {
                         user: {
                             username: user.username,
                             email: user.email,
+                            image: user.image,
                             id: user._id
                         },
                         token: token
@@ -45,8 +46,9 @@ module.exports = {
             }else{
                 let newUser = new User({
                     username: req.body.username,
+                    image: req.body.image,
                     email: req.body.email,
-                    password: req.body.password
+                    password: req.body.password,
                 });
                 // Hash password 
                 let salt = await bcrypt.genSalt(10);

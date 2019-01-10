@@ -38,6 +38,15 @@ module.exports = {
             })
         }
     },
+    async getFavoriteRecipes(req, res){
+        try{
+            // Потом сделаю
+        }catch(err){
+            res.send({
+                error: err
+            })
+        }
+    },
     async setToFavorites(req, res){
         try{
             await User.update({_id: req.userData.id}, {$addToSet: {favorites: req.params.id}});

@@ -50,7 +50,8 @@
     cursor: pointer;
   }
   .error-alert{
-    font-size: 16px;
+    font-size: 15px;
+    padding: 3px;
     letter-spacing: .8px;
     font-family: 'Open Sans', sans-serif;
     border-radius: 10px;

@@ -32,6 +32,11 @@
               type="email"></v-text-field>
             <v-text-field
               class="login-input"
+              label="Image"
+              hint="Link to your avatar"
+              v-model="image"></v-text-field>
+            <v-text-field
+              class="login-input"
               label="Password"
               :append-icon="showPassword ? 'visibility_off' : 'visibility'"
               :type="showPassword ? 'text' : 'password'"
@@ -70,6 +75,7 @@ export default {
     return{
       valid: true,
       showPassword: false,
+      image: '',
       username: '',
       usernameRules: [
         v => !!v || 'Username is required',
@@ -112,6 +118,7 @@ export default {
         const response = await Auth.register({
           username: this.username,
           email: this.email,
+          image: this.image,
           password: this.password
         });
         console.log(response);
