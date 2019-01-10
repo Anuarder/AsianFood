@@ -1,106 +1,140 @@
 <template>
-  <v-container>
-    <v-layout wrap row>
-      <v-flex xs12 class="text-xs-center mb-3">
-        <h1>Dashboard page</h1>
-        <v-btn color="primary" @click="sayHi()">Say hi</v-btn>
-        <v-btn color="primary" @click="getRecipe('5c2435c0c85ae2132c6882ed')">Get recipe</v-btn>
-        <v-btn color="primary" @click="logout()">Log out</v-btn>
-      </v-flex>
-      <v-flex xs12>
-        <v-alert
-          v-if="error"
-          :value="true"
-          type="error">
-          {{error}}
-        </v-alert>
-        
-        <v-list v-if="recipe">
-          <v-list-tile avatar>
-            <v-list-tile-avatar>
-              <img :src="recipe[0].img" @click="deleteFromFavorites(recipe[0]._id)">
-            </v-list-tile-avatar>
-
+  <v-container fluid class="home">
+    <v-toolbar color="transparent" flat>
+      <v-avatar
+        class="home-link"
+        @click="goLink('home')"
+        :tile="true">
+        <img src="../assets/Logo.png">
+      </v-avatar>
+      <v-toolbar-title class="home-link" @click="goLink('home')">
+        <span class="red--text">ASIAN</span> FOOD
+      </v-toolbar-title>
+      <div class="ml-3 hidden-sm-and-down">
+        <v-menu offset-y>
+          <v-btn
+            slot="activator"
+            flat
+            color="red">
+            Select category
+          </v-btn>
+          <v-list class="menu-list">
+            <v-list-tile
+              v-for="item in categories"
+              :key="item.title"
+              :to="{name: item.name}">
+              <v-avatar
+                size="20">
+                <img :src="item.icon">
+              </v-avatar>
+              <v-list-tile-title class="ml-2">{{ item.title }}</v-list-tile-title>
+              
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+      </div>
+      <v-text-field
+          append-icon="search"
+          color="red"
+          label="Search"
+          class="search-panel hidden-sm-and-down ma-3"></v-text-field>
+      <v-btn v-if='!token' dark color="amber" class="hidden-sm-and-down" @click="goLink('login')">Login</v-btn>
+      <v-btn v-else icon dark color="red" class="hidden-sm-and-down" @click="goLink('user')">
+        <v-icon>person</v-icon>
+      </v-btn>
+      <v-spacer class="hidden-md-and-up"></v-spacer>
+      <v-toolbar-side-icon class="hidden-md-and-up" @click="drawer = !drawer"></v-toolbar-side-icon>
+    </v-toolbar>
+    <v-navigation-drawer 
+      v-model="drawer"
+      clipped
+      fixed
+      app
+      disable-resize-watcher
+      right
+      class="white">
+      <v-toolbar flat class="grey lighten-5">
+        <v-list>
+          <v-list-tile>
             <v-list-tile-content>
-              <v-list-tile-title>{{recipe[0].title}}</v-list-tile-title>
+              <v-list-tile-title 
+                class="title red--text">Menu</v-list-tile-title>
             </v-list-tile-content>
-
-            <v-list-tile-action>
-              <v-icon @click="addToFavorite(recipe[0]._id)">chat_bubble</v-icon>
-            </v-list-tile-action>
+            <v-btn v-if='!token' dark color="amber" @click="goLink('login')">Login</v-btn>
+            <v-btn v-else icon @click="goLink('user')">
+              <v-icon color="red darken-1">person</v-icon>
+            </v-btn>
           </v-list-tile>
         </v-list>
-        <v-list two-line>
-            <v-list-tile
-              v-for="(item, index) in recipes"
-              :key="item._id">
-              <v-list-tile-avatar>
-                <img :src="item.img">
-              </v-list-tile-avatar>
-
-              <v-list-tile-content>
-                <v-list-tile-title>{{index+1}}) {{item.title}}</v-list-tile-title>
-                <v-list-tile-sub-title>{{item.category}}</v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-        </v-list>
-      </v-flex>
-    </v-layout>
+      </v-toolbar>
+      <!-- Menu List -->
+      <v-list>
+        <v-list-tile
+          class="mb-2">
+          <v-text-field
+            append-icon="search"
+            color="red"
+            label="Search"
+            class="menu-search-panel"></v-text-field>
+        </v-list-tile>
+        <v-subheader>
+          Select category
+        </v-subheader>
+        <v-list-tile
+          v-for="item in categories"
+          :key="item.name"
+          :to="{name: item.name}">
+          <v-list-tile-action>
+            <img :src="item.icon" width="30" class="menu-img">
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="menu-link">{{item.title}}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    
+    <router-view></router-view>
   </v-container>
 </template>
 <script>
-import RecipesServices from '@/services/RecipesServices'
+import { mapState } from 'vuex';
 export default {
   data(){
     return{
-      recipes: [],
-      error: '',
-      recipe: ''
+      drawer: false,
+      categories: [
+        {icon: 'https://image.flaticon.com/icons/svg/197/197582.svg', title: 'Korean', name: 'korea'},
+        {icon: 'https://image.flaticon.com/icons/svg/197/197452.svg', title: 'Thai', name: 'thai'},
+        {icon: 'https://image.flaticon.com/icons/svg/197/197375.svg', title: 'Chineese', name: 'china'},
+        {icon: 'https://image.flaticon.com/icons/svg/197/197604.svg', title: 'Japanese', name: 'japan'},
+      ]
     }
   },
-  created(){
-    this.sayHi();
+  computed: {
+    ...mapState(['token'])
   },
   methods: {
-    async sayHi(){
-      try{  
-        let response = await RecipesServices.getAll();
-        this.recipes = response.data.recipes;
-      }catch(err){
-        console.log(err);
-        this.error = "Auth failed";
-      }
-    },
-    async getRecipe(id){
-      try{
-        let response = await RecipesServices.getRecipeByID(id);
-        this.recipe = response.data.recipe;
-        console.log(response);
-      }catch(err){
-        console.log(err);
-      }
-    },
-    async addToFavorite(id){
-      try{
-        let response = await RecipesServices.addToFavorite(id);
-        console.log(response);
-      }catch(err){
-        console.log(err);
-      }
-    },
-    async deleteFromFavorites(id){
-      try{
-        let response = await RecipesServices.deleteFromFavorites(id);
-      }catch(err){
-        console.log(err);
-      }
+    goLink(link){
+      this.$router.push({name: link})
     },
     logout(){
       this.$store.dispatch('logout');
-      this.$router.push({
-        name: 'login'
-      })
     }
   }
 }
 </script>
+<style scoped>
+  .home{
+    font-family: 'Baloo', sans-serif;
+  }
+  .menu-list{
+    font-family: 'Baloo', sans-serif;
+  }
+  .v-list .v-list__tile--active .v-list__tile__title{
+    color: #373746;
+  }
+  .menu-search-panel{
+    width: 100%;
+  }
+</style>

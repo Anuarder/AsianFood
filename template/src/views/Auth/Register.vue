@@ -33,17 +33,21 @@
             <v-text-field
               class="login-input"
               label="Password"
+              :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+              :type="showPassword ? 'text' : 'password'"
+              @click:append="showPassword = !showPassword"
               v-model="password"
               :rules="passwordRules"
-              required
-              type="password"></v-text-field>
+              required></v-text-field>
             <v-text-field
               class="login-input"
               label="Confirm password"
+              :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+              :type="showPassword ? 'text' : 'password'"
+              @click:append="showPassword = !showPassword"
               v-model="confirmPassword"
               :rules="confirmPasswordRules"
-              required
-              type="password"></v-text-field>
+              required></v-text-field>
             <v-btn
               @click="validate()"
               color="orange"
@@ -65,6 +69,7 @@ export default {
   data(){
     return{
       valid: true,
+      showPassword: false,
       username: '',
       usernameRules: [
         v => !!v || 'Username is required',

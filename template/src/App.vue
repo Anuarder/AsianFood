@@ -9,6 +9,9 @@
 </template>
 <style>
 
+#app{
+  background-color: #fff;
+}
 /* Login and Register page CSS */
 .login{
     background-image: url('./assets/previewback1.jpg');

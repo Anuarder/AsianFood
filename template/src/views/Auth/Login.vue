@@ -19,9 +19,11 @@
               v-model="email"></v-text-field>
             <v-text-field
               class="login-input mb-3"
+              :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+              :type="showPassword ? 'text' : 'password'"
+              @click:append="showPassword = !showPassword"
               label="Password"
-              v-model="password"
-              type="password"></v-text-field>
+              v-model="password"></v-text-field>
             <v-btn
               @click="login()"
               color="orange"
@@ -42,6 +44,7 @@ import Auth from '@/services/Auth'
 export default {
   data(){
     return{
+      showPassword: false,
       alert: false,
       email: '',
       password: '',
