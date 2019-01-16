@@ -4,10 +4,7 @@ import Login from './views/Auth/Login.vue'
 import Register from './views/Auth/Register.vue'
 import Home from './views/Home.vue'
 import Recipes from './views/Recipes.vue'
-import Korea from './views/Recipes/Korea.vue'
-import Thai from './views/Recipes/Thai.vue'
-import Japan from './views/Recipes/Japan.vue'
-import China from './views/Recipes/China.vue'
+import CategoryRecipes from './views/CategoryRecipes.vue'
 
 import User from './views/User/User.vue'
 import Favorite from './views/User/Favorite.vue'
@@ -30,24 +27,8 @@ const router = new Router({
           component: Recipes,
         },
         {
-          path: 'korea',
-          name: 'korea',
-          component: Korea
-        },
-        {
-          path: 'thai',
-          name: 'thai',
-          component: Thai
-        },
-        {
-          path: 'japan',
-          name: 'japan',
-          component: Japan
-        },
-        {
-          path: 'china',
-          name: 'china',
-          component: China
+          path: 'recipes/:category',
+          component: CategoryRecipes
         },
         {
           path: '/user',

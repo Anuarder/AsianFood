@@ -22,7 +22,8 @@
             <v-list-tile
               v-for="item in categories"
               :key="item.title"
-              :to="{name: item.name}">
+              @click="setRecipes(item.name)"
+              :to="`/recipes/${item.name}`">
               <v-avatar
                 size="20">
                 <img :src="item.icon">
@@ -87,7 +88,8 @@
         <v-list-tile
           v-for="item in categories"
           :key="item.name"
-          :to="{name: item.name}">
+          @click="setRecipes(item.name)"
+          :to="`/recipes/${item.name}`">
           <v-list-tile-action>
             <img :src="item.icon" width="30" class="menu-img">
           </v-list-tile-action>
@@ -103,15 +105,16 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import RecipesServices from '../services/RecipesServices.js'
 export default {
   data(){
     return{
       drawer: false,
       categories: [
-        {icon: 'https://image.flaticon.com/icons/svg/197/197582.svg', title: 'Korean', name: 'korea'},
+        {icon: 'https://image.flaticon.com/icons/svg/197/197582.svg', title: 'Korean', name: 'korean'},
         {icon: 'https://image.flaticon.com/icons/svg/197/197452.svg', title: 'Thai', name: 'thai'},
-        {icon: 'https://image.flaticon.com/icons/svg/197/197375.svg', title: 'Chineese', name: 'china'},
-        {icon: 'https://image.flaticon.com/icons/svg/197/197604.svg', title: 'Japanese', name: 'japan'},
+        {icon: 'https://image.flaticon.com/icons/svg/197/197375.svg', title: 'Chineese', name: 'chinese'},
+        {icon: 'https://image.flaticon.com/icons/svg/197/197604.svg', title: 'Japanese', name: 'japanese'},
       ]
     }
   },
@@ -124,6 +127,19 @@ export default {
     },
     logout(){
       this.$store.dispatch('logout');
+    },
+    async setRecipes(category){
+        try{
+            let response = await RecipesServices.getRecipesByCategory(category);
+            let recipes = {
+              recipes: response.data.recipes,
+              category: category,
+              count: Object.keys(response.data.recipes).length
+            }
+            this.$store.dispatch('setRecipes', recipes);
+        }catch(err){
+            console.log(err);
+        }
     }
   }
 }

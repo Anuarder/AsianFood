@@ -1,11 +1,11 @@
 <template>
     <v-container>
-        <h1 class="display-1 red--text">Welcome to your Kitchen</h1>
-        <p class="subheading amber--text">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam quidem expedita qui atque iure? Beatae.
+        <h1 class="display-1 red--text text-capitalize">{{recipes.category}} recipes</h1>
+        <p class="title orange--text">
+            {{recipes.count}} recipes
         </p>
         <v-layout row wrap class="mt-3">
-            <v-flex xs12 md4 class="pa-2" v-for="recipe in allRecipes" :key="recipe._id">
+            <v-flex xs12 md4 class="pa-2" v-for="recipe in recipes.recipes" :key="recipe._id">
                 <v-card class="elevation-3 recipe-card">
                 <v-layout>
                     <v-flex xs5>
@@ -32,28 +32,10 @@
     </v-container>
 </template>
 <script>
-import {mapState} from 'vuex'
-import RecipesServices from '../services/RecipesServices.js'
+import { mapState } from 'vuex';
 export default {
-    data(){
-        return{
-            allRecipes: []
-        }
-    },
-    created(){
-        this.getAllRecipes();
-    },
-    methods:{
-        async getAllRecipes(){
-            try{
-                let response = await RecipesServices.getAll();
-                console.log(response);
-                this.allRecipes = response.data.recipes;
-            }catch(err){
-                console.log(err);
-            }
-        }
+    computed:{
+        ...mapState(['recipes'])
     }
-
 }
 </script>

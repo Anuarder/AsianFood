@@ -59,6 +59,14 @@
   .home-link{
     cursor: pointer;
   }
+  .recipe-card{
+    /* height: 300px; */
+  }
+  .time-to-cook{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
   /* Router transition */
   .fade-enter-active,
   .fade-leave-active {

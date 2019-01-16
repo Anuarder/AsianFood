@@ -25,15 +25,6 @@
             </v-card-title>
           </v-card>
         </v-flex>
-        <v-flex
-          md3
-          xs12>
-          <v-card color="primary" dark hover :to="{name: 'settings'}">
-            <v-card-title>
-              <div class="headline">Settings</div>
-            </v-card-title>
-          </v-card>
-        </v-flex>
       </v-layout>
     </div>
   </v-container>

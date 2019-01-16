@@ -72,5 +72,14 @@ module.exports = {
                 error: err
             })
         }
+    },
+    async searchRecipes(req, res){
+        try{
+            // Text search
+        }catch(err){
+            res.send({
+                error: err
+            })
+        }
     }
 }

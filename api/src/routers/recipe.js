@@ -7,6 +7,8 @@ router.get('/recipes/:category', RecipeController.getRecipesByCategory);
 router.get('/recipes',  RecipeController.getAllRecipes);
 router.get('/recipe/:id', RecipeController.getRecipeByID);
 router.get('/favorites', checkAuth, RecipeController.getFavoriteRecipes);
+router.get('/search', RecipeController.searchRecipes);
+
 
 router.put('/recipe/:id/setToFavorites', checkAuth, RecipeController.setToFavorites);
 router.put('/recipe/:id/deleteFromFavorites', checkAuth, RecipeController.deleleFromFavorites);

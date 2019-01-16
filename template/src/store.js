@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     token: false,
     user: null,
+    recipes: {}
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     logout(state){
       state.token = false;
       state.user = null;
+    },
+    setRecipes(state, recipes){
+      state.recipes = recipes;
     }
   },
   actions: {
@@ -32,6 +36,9 @@ export default new Vuex.Store({
     },
     logout({commit}){
       commit('logout')
+    },
+    setRecipes({commit}, recipes){
+      commit('setRecipes', recipes)
     }
   }
 })

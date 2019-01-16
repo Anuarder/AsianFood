@@ -4,6 +4,9 @@ export default {
     getAll(){
         return Api().get('recipes')
     },
+    getRecipesByCategory(category){
+        return Api().get(`recipes/${category}`);
+    },
     getRecipeByID(id){
         return Api().get(`recipe/${id}`);
     },
