@@ -32,7 +32,6 @@
     </v-container>
 </template>
 <script>
-import {mapState} from 'vuex'
 import RecipesServices from '../services/RecipesServices.js'
 export default {
     data(){

@@ -25,6 +25,15 @@
             </v-card-title>
           </v-card>
         </v-flex>
+        <v-flex
+          md3
+          xs12>
+          <v-card color="blue" dark hover @click="logout()">
+            <v-card-title>
+              <div class="headline">Logout</div>
+            </v-card-title>
+          </v-card>
+        </v-flex>
       </v-layout>
     </div>
   </v-container>
@@ -35,5 +44,10 @@ export default {
   computed:{
     ...mapState(['user'])
   },
+  methods:{
+    logout(){
+      this.$store.dispatch('logout');
+    }
+  }
 }
 </script>

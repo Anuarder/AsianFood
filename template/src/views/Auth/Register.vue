@@ -1,7 +1,73 @@
 <template>
   <v-container fluid class="login">
-    <v-layout row fill-height align-center class="login-card elevation-10">
+    <v-layout row fill-height align-center class="login-card elevation-10 hidden-xs-only">
       <v-flex offset-sm6 class="login-form">
+          <h1 class="home-link" @click="goLink('home')">ASIAN FOOD</h1>
+          <h4>Register new user</h4>
+          <v-form 
+            ref="form"
+            @submit.prevent
+            v-model="valid"
+            class="mt-3 mb-3">
+            <v-alert
+              v-model="alert"
+              dismissible
+              outline
+              type="error"
+              class="error-alert mb-3">
+              {{error_message}}
+            </v-alert>
+            <v-text-field
+              class="login-input"
+              :rules="usernameRules"
+              v-model="username"
+              required
+              label="Username"></v-text-field>
+            <v-text-field
+              class="login-input"
+              label="Email"
+              v-model="email"
+              :rules="emailRules"
+              required
+              type="email"></v-text-field>
+            <v-text-field
+              class="login-input"
+              label="Image"
+              hint="Link to your avatar"
+              v-model="image"></v-text-field>
+            <v-text-field
+              class="login-input"
+              label="Password"
+              :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+              :type="showPassword ? 'text' : 'password'"
+              @click:append="showPassword = !showPassword"
+              v-model="password"
+              :rules="passwordRules"
+              required></v-text-field>
+            <v-text-field
+              class="login-input"
+              label="Confirm password"
+              :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+              :type="showPassword ? 'text' : 'password'"
+              @click:append="showPassword = !showPassword"
+              v-model="confirmPassword"
+              :rules="confirmPasswordRules"
+              required></v-text-field>
+            <v-btn
+              @click="validate()"
+              color="orange"
+              dark
+              large
+              type="submit"
+              class="elevation-8"
+              right
+              :loading="performingRequest">sign up</v-btn>
+          </v-form>
+          <h5>Have a account? <span class="orange--text router-btn" @click="goLink('login')">SIGN IN</span></h5>
+      </v-flex>
+    </v-layout>
+    <v-layout row fill-height align-center class="hidden-sm-and-up mobile-login-card">
+      <v-flex xs12>
           <h1 class="home-link" @click="goLink('home')">ASIAN FOOD</h1>
           <h4>Register new user</h4>
           <v-form 

@@ -56,11 +56,17 @@
     font-family: 'Open Sans', sans-serif;
     border-radius: 10px;
   }
+  .mobile-login-card{
+    font-size: 1.5rem;
+  }
+  .mobile-login-card .v-btn{
+    font-size: 1.5rem;
+  }
+  .mobile-login-card .login-input{
+    font-size: 1.5rem;
+  }
   .home-link{
     cursor: pointer;
-  }
-  .recipe-card{
-    /* height: 300px; */
   }
   .time-to-cook{
     position: absolute;
