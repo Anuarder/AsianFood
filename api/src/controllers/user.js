@@ -34,7 +34,7 @@ module.exports = {
                 throw "Incorrect user"
             }
         }catch(err){
-            res.send({error: err});
+            res.status(200).send({error: err});
         }
     },
     async createNewUser(req, res){

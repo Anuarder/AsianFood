@@ -22,14 +22,12 @@
             <v-list-tile
               v-for="item in categories"
               :key="item.title"
-              @click="setRecipes(item.name)"
               :to="`/recipes/${item.name}`">
               <v-avatar
                 size="20">
                 <img :src="item.icon">
               </v-avatar>
               <v-list-tile-title class="ml-2">{{ item.title }}</v-list-tile-title>
-              
             </v-list-tile>
           </v-list>
         </v-menu>
@@ -39,11 +37,12 @@
           color="red"
           label="Search"
           class="search-panel hidden-sm-and-down ma-3"></v-text-field>
-      <v-btn v-if='!token' dark color="amber" class="hidden-sm-and-down" @click="goLink('login')">Login</v-btn>
-      <div v-else>
-        <v-btn icon large class="hidden-sm-and-down" @click="goLink('user')">
-          <v-icon large color="red darken-1">face</v-icon>
-        </v-btn>
+      <div class="login-user">
+        <v-btn v-if='!token' dark flat color="amber" class="hidden-sm-and-down" @click="goLink('login')">Login</v-btn>
+        <div v-else class="hidden-sm-and-down">
+          <v-btn icon><v-icon color="pink" @click="goLink('favorites')">bookmark</v-icon></v-btn>
+          <v-btn icon><v-icon color="primary" @click="logout()">input</v-icon></v-btn>
+        </div>
       </div>
       <v-spacer class="hidden-md-and-up"></v-spacer>
       <v-toolbar-side-icon class="hidden-md-and-up" @click="drawer = !drawer"></v-toolbar-side-icon>
@@ -65,9 +64,8 @@
             </v-list-tile-content>
             <v-btn v-if='!token' flat dark color="amber" @click="goLink('login')">Login</v-btn>
             <div v-else>
-              <v-btn large icon @click="goLink('user')">
-                <v-icon large color="red darken-1">face</v-icon>
-              </v-btn>
+              <v-btn icon><v-icon color="pink" @click="goLink('favorites')">bookmark</v-icon></v-btn>
+              <v-btn icon><v-icon color="primary" @click="logout()">input</v-icon></v-btn>
             </div>
           </v-list-tile>
         </v-list>
@@ -82,13 +80,12 @@
             label="Search"
             class="menu-search-panel"></v-text-field>
         </v-list-tile>
-        <v-subheader @click="logout">
+        <v-subheader>
           Select category
         </v-subheader>
         <v-list-tile
           v-for="item in categories"
           :key="item.name"
-          @click="setRecipes(item.name)"
           :to="`/recipes/${item.name}`">
           <v-list-tile-action>
             <img :src="item.icon" width="30" class="menu-img">
@@ -105,7 +102,6 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import RecipesServices from '../services/RecipesServices.js'
 export default {
   data(){
     return{
@@ -115,11 +111,11 @@ export default {
         {icon: 'https://image.flaticon.com/icons/svg/197/197452.svg', title: 'Thai', name: 'thai'},
         {icon: 'https://image.flaticon.com/icons/svg/197/197375.svg', title: 'Chineese', name: 'chinese'},
         {icon: 'https://image.flaticon.com/icons/svg/197/197604.svg', title: 'Japanese', name: 'japanese'},
-      ]
+      ],
     }
   },
   computed: {
-    ...mapState(['token'])
+    ...mapState(['token', 'user'])
   },
   methods: {
     goLink(link){
@@ -127,19 +123,7 @@ export default {
     },
     logout(){
       this.$store.dispatch('logout');
-    },
-    async setRecipes(category){
-        try{
-            let response = await RecipesServices.getRecipesByCategory(category);
-            let recipes = {
-              recipes: response.data.recipes,
-              category: category,
-              count: Object.keys(response.data.recipes).length
-            }
-            this.$store.dispatch('setRecipes', recipes);
-        }catch(err){
-            console.log(err);
-        }
+      this.$router.push({name: 'home'});
     }
   }
 }

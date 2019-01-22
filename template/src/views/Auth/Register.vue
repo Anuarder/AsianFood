@@ -187,7 +187,6 @@ export default {
           image: this.image,
           password: this.password
         });
-        console.log(response);
         if(response.data.message){
           this.performingRequest = false;
           this.$router.push({name: 'login'});

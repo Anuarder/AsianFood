@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    
+    Favorites
   </v-container>
 </template>
 <script>

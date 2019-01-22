@@ -68,10 +68,14 @@
   .home-link{
     cursor: pointer;
   }
-  .time-to-cook{
+  .bookmark-btn{
     position: absolute;
     right: 10px;
     bottom: 10px;
+  }
+  .time-to-cook{
+    position: absolute;
+    bottom: 15px;
   }
   /* Router transition */
   .fade-enter-active,

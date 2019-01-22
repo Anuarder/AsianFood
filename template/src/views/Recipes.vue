@@ -1,34 +1,26 @@
 <template>
     <v-container>
-        <h1 class="display-1 red--text">Welcome to your Kitchen</h1>
-        <p class="subheading amber--text">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam quidem expedita qui atque iure? Beatae.
-        </p>
-        <v-layout row wrap class="mt-3">
-            <v-flex xs12 md4 class="pa-2" v-for="recipe in allRecipes" :key="recipe._id">
-                <v-card class="elevation-3 recipe-card">
-                <v-layout>
-                    <v-flex xs5>
-                    <v-img
-                        :src="recipe.img"
-                        height="170"
-                        cover></v-img>
-                    </v-flex>
-                    <v-flex xs7>
-                    <v-card-title primary-title>
-                        <div>
-                        <div class="title">{{recipe.title}}</div>
-                        <div class="grey--text">{{recipe.category}}</div>
-                        </div>
-                    </v-card-title>
-                    <v-card-actions>
-                        <span class="time-to-cook"><i class="far fa-clock"> {{recipe.time}} min</i></span>
-                    </v-card-actions>
-                    </v-flex>
-                </v-layout>
-                </v-card>
-            </v-flex>
-        </v-layout>
+        <div v-if="request">
+            <v-layout justify-center class="mt-5">
+                <v-progress-circular
+                    :size="200"
+                    color="red"
+                    width="10"
+                    indeterminate>
+                </v-progress-circular>
+            </v-layout>
+        </div>
+        <div v-if="isLoaded">
+            <h1 class="display-1 red--text">Welcome to your Kitchen</h1>
+            <p class="subheading amber--text">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam quidem expedita qui atque iure? Beatae.
+            </p>
+            <v-layout row wrap class="mt-3" v-if="isLoaded">
+                <v-flex xs12 md4 class="pa-2" v-for="recipe in allRecipes" :key="recipe._id">
+                    <recipe-card :value="recipe"></recipe-card>
+                </v-flex>
+            </v-layout>
+        </div>
     </v-container>
 </template>
 <script>
@@ -36,7 +28,9 @@ import RecipesServices from '../services/RecipesServices.js'
 export default {
     data(){
         return{
-            allRecipes: []
+            allRecipes: [],
+            isLoaded: false,
+            request: false,
         }
     },
     created(){
@@ -45,9 +39,11 @@ export default {
     methods:{
         async getAllRecipes(){
             try{
+                this.request = true;
                 let response = await RecipesServices.getAll();
-                console.log(response);
                 this.allRecipes = response.data.recipes;
+                this.request = false;
+                this.isLoaded = true;
             }catch(err){
                 console.log(err);
             }

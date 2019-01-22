@@ -6,8 +6,7 @@ import Home from './views/Home.vue'
 import Recipes from './views/Recipes.vue'
 import CategoryRecipes from './views/CategoryRecipes.vue'
 
-import User from './views/User/User.vue'
-import Favorite from './views/User/Favorite.vue'
+import Favorites from './views/User/Favorites.vue'
 
 import store from '@/store'
 
@@ -31,17 +30,9 @@ const router = new Router({
           component: CategoryRecipes
         },
         {
-          path: '/user',
-          name: 'user',
-          component: User,
-          meta: {
-            requaresAuth: true
-          }
-        },
-        {
-          path: '/favorite',
-          name: 'favorite',
-          component: Favorite,
+          path: '/favorites',
+          name: 'favorites',
+          component: Favorites,
           meta: {
             requaresAuth: true
           }

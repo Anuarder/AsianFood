@@ -101,7 +101,6 @@ export default {
           email: this.email,
           password: this.password
         });
-        console.log(response);
         if(response.data.token){
           this.performingRequest = false;
           this.$store.dispatch('setUserToken', response.data.token);
