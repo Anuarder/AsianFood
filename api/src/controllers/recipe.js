@@ -40,7 +40,21 @@ module.exports = {
     },
     async getFavoriteRecipes(req, res){
         try{
-            // Потом сделаю
+            const user = await User.findOne({_id: req.userData.id});
+            if(user){
+                let favorites = user.favorites;
+                let recipes = [];
+                for(let id of favorites){
+                    let recipe = await Recipe.findOne({_id: id});
+                    recipes.push(recipe);
+                }
+                
+                res.send({
+                    recipes: recipes
+                })
+            }else{
+                throw 'User not found'
+            }
         }catch(err){
             res.send({
                 error: err

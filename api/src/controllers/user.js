@@ -25,7 +25,8 @@ module.exports = {
                             username: user.username,
                             email: user.email,
                             image: user.image,
-                            id: user._id
+                            id: user._id,
+                            favorites: user.favorites
                         },
                         token: token
                     });
@@ -34,7 +35,7 @@ module.exports = {
                 throw "Incorrect user"
             }
         }catch(err){
-            res.status(200).send({error: err});
+            res.send({error: err});
         }
     },
     async createNewUser(req, res){

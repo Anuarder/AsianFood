@@ -10,6 +10,9 @@ export default {
     getRecipeByID(id){
         return Api().get(`recipe/${id}`);
     },
+    getFavoritesRecipes(){
+        return Api().get(`favorites`);
+    },
     addToFavorite(id){
         return Api().put(`recipe/${id}/setToFavorites`);
     },

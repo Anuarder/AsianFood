@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Auth/Login.vue'
 import Register from './views/Auth/Register.vue'
+import Navbar from './components/Navbar.vue'
 import Home from './views/Home.vue'
 import Recipes from './views/Recipes.vue'
-import CategoryRecipes from './views/CategoryRecipes.vue'
 
 import Favorites from './views/User/Favorites.vue'
 
@@ -16,18 +16,17 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
-      redirect: 'recipes',
+      component: Navbar,
+      redirect: 'home',
       children: [
         {
-          path: 'recipes',
-          name: 'recipes',
-          component: Recipes,
+          path: 'home',
+          name: 'home',
+          component: Home,
         },
         {
           path: 'recipes/:category',
-          component: CategoryRecipes
+          component: Recipes
         },
         {
           path: '/favorites',

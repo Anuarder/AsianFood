@@ -21,6 +21,12 @@ export default new Vuex.Store({
     logout(state){
       state.token = false;
       state.user = null;
+    },
+    addToFavorites(state, id){
+      state.user.favorites.push(id);
+    },
+    deleteFromFavorites(state, id){
+      state.user.favorites.splice(id, 1);
     }
   },
   actions: {
@@ -32,6 +38,12 @@ export default new Vuex.Store({
     },
     logout({commit}){
       commit('logout')
+    },
+    addToFavorites({commit}, id){
+      commit('addToFavorites', id);
+    },
+    deleteFromFavorites({commit}, id){
+      commit('deleteFromFavorites', id);
     }
   }
 })
