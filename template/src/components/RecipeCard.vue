@@ -56,11 +56,13 @@ export default {
     },
     methods:{
         checkFavorites(){
-            this.user.favorites.forEach(id => {
-                if(id === this.value._id){
-                    this.isFavorite = true;
-                }
-            });  
+            if(this.user){
+                this.user.favorites.forEach(id => {
+                    if(id === this.value._id){
+                        this.isFavorite = true;
+                    }
+                });
+            }
         },
         async addToFavorites(id){
             try{
